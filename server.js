@@ -1,15 +1,16 @@
 const express = require('express');
+const path = require('path');
 const app = express();
-const port = 3000;
+const port = 202;
 
-// ✅ Serve your HTML/CSS files from the 'public' folder
-app.use(express.static('public'));
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
 
-// ❌ Remove this, since static files will handle the root route
-// app.get('/', (req, res) => {
-//   res.send('Hello World!')
-// });
+// Fallback route (for all other URLs)
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`✅ Server running at http://localhost:${port}`);
 });
